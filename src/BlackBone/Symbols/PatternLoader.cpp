@@ -102,7 +102,7 @@ namespace blackbone
 
             // LdrProtectMrdata
             // 75 35 6A 04
-            patterns.emplace(&result.LdrProtectMrdata, OffsetData("\x75\x35\x6a\x04", false, 0x23));
+            patterns.emplace(&result.LdrProtectMrdata, OffsetData{ "\x75\x35\x6a\x04", false, 0x23 });
         }
         else if (IsWindows10RS3OrGreater())
         {
