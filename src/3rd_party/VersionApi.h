@@ -30,6 +30,8 @@ enum eBuildThreshold
     Build_19H2 = 18363,
     Build_20H1 = 19041,
     Build_Win11Beta = 21996,
+    Build_Win1122h2 = 22621,
+    Build_Win1123h2 = 22631,
     Build_RS_MAX = 99999,
 };
 
@@ -311,6 +313,18 @@ VERSIONHELPERAPI
 IsWindows11BetaOrGreater()
 {
     return IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN10), LOBYTE(_WIN32_WINNT_WIN10), 0, Build_Win11Beta);
+}
+
+VERSIONHELPERAPI
+IsWindows1122H2orGreater()
+{
+    return IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN10), LOBYTE(_WIN32_WINNT_WIN10), 0, Build_Win1122h2);
+}
+
+VERSIONHELPERAPI
+IsWindows1123H2orGreater()
+{
+    return IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN10), LOBYTE(_WIN32_WINNT_WIN10), 0, Build_Win1123h2);
 }
 
 VERSIONHELPERAPI

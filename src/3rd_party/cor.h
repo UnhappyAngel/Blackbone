@@ -211,7 +211,7 @@ typedef enum tagCOUNINITEE
 // <STRIP>The following definitions will get moved into <windows.h> by RTM but are
 // kept here for the Alpha's and Beta's.</STRIP>
 #ifndef _WINDOWS_UPDATES_
-#include <corhdr.h>
+#include <3rd_party/corhdr.h>
 #endif // <windows.h> updates
 
 //*****************************************************************************

@@ -12,7 +12,7 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4091)
-#include "cor.h"
+#include "3rd_party/cor.h"
 #include <atlbase.h>
 #pragma warning(pop)
 

@@ -69,7 +69,13 @@ namespace blackbone
     /// <param name="result">Result</param>
     void OSFillPatterns(std::unordered_map<ptr_t*, OffsetData>& patterns, SymbolData& result)
     {
-        if (IsWindows11BetaOrGreater()) {
+        if (IsWindows1123H2orGreater()) {
+            patterns.emplace(&result.LdrpHandleTlsData64, OffsetData{ "\x75\x31\x33\xC0", true, 0x80 });
+            patterns.emplace(&result.LdrpHandleTlsData32, OffsetData{ "\x51\x8D\x4D\xB4", false, 0x31 });
+
+
+        }
+        else if (IsWindows11BetaOrGreater()) {
             // LdrpHandleTlsData
             // 75 31 33 C0 (-74)
             patterns.emplace(&result.LdrpHandleTlsData64, OffsetData{ "\x75\x31\x33\xc0", true, 0x74 });
@@ -91,18 +97,14 @@ namespace blackbone
             // 33 F6 46 3B C6
             patterns.emplace(&result.LdrpInvertedFunctionTable32, OffsetData{ "\x33\xF6\x46\x3B\xC6", false, -1, -0x1B });
 
-            // LdrpHandleTlsData
-            // 33 F6 85 C0 79 03 - RS5-20H1
-            auto pattern = "\x33\xf6\x85\xc0\x79\x03";
-
-
-            auto offset = 0x2C;
-
-            patterns.emplace(&result.LdrpHandleTlsData32, OffsetData{ pattern, false, offset });
+            auto offset = 0x20;
+            if (IsWindows1122H2orGreater())
+                offset = 0x31;
+            patterns.emplace(&result.LdrpHandleTlsData32, OffsetData{ "\x6A\x09\xB2\x01", false, offset });
 
             // LdrProtectMrdata
             // 75 35 6A 04
-            patterns.emplace(&result.LdrProtectMrdata, OffsetData("\x75\x35\x6a\x04", false, 0x23));
+            patterns.emplace(&result.LdrProtectMrdata, OffsetData{ "\x75\x35\x6a\x04", false, 0x23 });
         }
         else if (IsWindows10RS3OrGreater())
         {
@@ -339,7 +341,6 @@ namespace blackbone
                 BLACKBONE_TRACE("PatternData: APC64PatchAddress not found");
         }
 #endif
-
         return STATUS_SUCCESS;
     }
 
