@@ -20,6 +20,12 @@ public:
     /// <param name="result">Found symbols</param>
     /// <returns>Status code</returns>
     BLACKBONE_API NTSTATUS Load( SymbolData& result );
+    BLACKBONE_API NTSTATUS LoadCustom( uint32_t tls64, uint32_t ift64, uint32_t insert64, uint32_t release64 );
+
+    /// <summary>
+    /// Fill missing symbols with pattern scans (no DIA involved)
+    /// </summary>
+    BLACKBONE_API NTSTATUS FillFromPatterns();
 
     /// <summary>
     /// Load symbol addresses from PDBs

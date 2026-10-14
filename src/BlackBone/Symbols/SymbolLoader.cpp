@@ -41,6 +41,34 @@ NTSTATUS SymbolLoader::Load( SymbolData& result )
     return LoadFromPatterns( ntdll32, ntdll64, result );
 }
 
+BLACKBONE_API NTSTATUS SymbolLoader::LoadCustom(uint32_t tls64, uint32_t ift64, uint32_t insert64, uint32_t release64)
+{
+    auto [ntdll32, ntdll64] = LoadImages();
+
+    // rva from the server's pdb dump, resolved to absolute addresses
+    if (tls64)
+        g_symbols.LdrpHandleTlsData64 = ntdll64.imageBase() + tls64;
+
+    if (ift64)
+        g_symbols.LdrpInvertedFunctionTable64 = ntdll64.imageBase() + ift64;
+
+    if (insert64)
+        g_symbols.RtlInsertInvertedFunctionTable64 = ntdll64.imageBase() + insert64;
+
+    if (release64)
+        g_symbols.LdrpReleaseTlsEntry64 = ntdll64.imageBase() + release64;
+
+    return 0;
+}
+
+BLACKBONE_API NTSTATUS SymbolLoader::FillFromPatterns()
+{
+    auto [ntdll32, ntdll64] = LoadImages();
+
+    // fills only the fields that are still zero
+    return LoadFromPatterns(ntdll32, ntdll64, g_symbols);
+}
+
 /// <summary>
 /// Load symbol addresses from PDBs
 /// </summary>
